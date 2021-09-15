@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -16,7 +17,7 @@ import model.detail;
 
 public class adapter extends RecyclerView.Adapter<adapter.ListViewHolder> {
 
-    public ArrayList<detail> listdetail;
+    private ArrayList<detail> listdetail = new ArrayList<>();
 
     public adapter(ArrayList<detail> listdetail) {
         this.listdetail = listdetail;
@@ -37,7 +38,6 @@ public class adapter extends RecyclerView.Adapter<adapter.ListViewHolder> {
         holder.age.setText(String.valueOf(listdetail.get(position).getAge()));
         holder.address.setText(listdetail.get(position).getAddress());
 
-
     }
 
     @Override
@@ -55,12 +55,19 @@ public class adapter extends RecyclerView.Adapter<adapter.ListViewHolder> {
             name = itemView.findViewById(R.id.name);
             age = itemView.findViewById(R.id.age);
             address = itemView.findViewById(R.id.address);
-            cardview = itemView.findViewById(R.id.cardview);
-
-
-            cardview.setOnClickListener(new View.OnClickListener() {
+           // cardview = itemView.findViewById(R.id.cardview);
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(),userdetail.class);
+//                    String n = listdetail.get(getAdapterPosition()).getName();
+//                    int a = listdetail.get(getAdapterPosition()).getAge();
+//                    int an = Integer.parseInt(a);
+//                    String ad = listdetail.get(getAdapterPosition()).getAddress();
+//                    detail d = new detail(n, a,ad);
+//                    intent.putExtra("detail", d);
+                    intent.putExtra("index", getAdapterPosition());
+                    v.getContext().startActivity(intent);
 
                 }
             });

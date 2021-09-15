@@ -18,13 +18,14 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import model.data;
 import model.detail;
 
 public class List extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-    private ArrayList<detail> info;
+    public static ArrayList<detail>detail1 = data.detail1;
     private adapter adapter1;
     private FloatingActionButton addbutton;
     private TextView message;
@@ -58,27 +59,31 @@ public class List extends AppCompatActivity {
         initView();
         setupRecyclerView();
         setListener();
+       // Toast.makeText(getApplicationContext(), info.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//    @Override
+//    protected void tonA(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1) {
+//            if (resultCode == 200) {
+//                Intent intent = getIntent();
+//                detail newdetail = intent.getParcelableExtra("newdetail");
+//               // Toast.makeText(getApplicationContext(), newdetail.getName(), Toast.LENGTH_SHORT).show();
+//                info.add(newdetail);
+//                adapter1.notifyDataSetChanged();
+//                if (info != null){
+//                    message.setVisibility(View.GONE);
+//                }else{
+//                    message.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }
+//    }
 
-        if (requestCode == 1) {
-            if (resultCode == 200) {
-                detail newdetail = data.getParcelableExtra("newdetail");
-                Toast.makeText(getApplicationContext(), newdetail.getName(), Toast.LENGTH_SHORT).show();
-                info.add(newdetail);
-                adapter1.notifyDataSetChanged();
-                if (info != null){
-                    message.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }else{
-                    message.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                }
-            }
-        }
+    private void getintentdata(){
+        Intent intent = getIntent();
     }
 
     private void setListener() {
@@ -86,7 +91,9 @@ public class List extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivityForResult(intent, 1);
+                intent.putExtra("condition", "add");
+             //   startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
     }
@@ -99,9 +106,13 @@ public class List extends AppCompatActivity {
 
     private void initView() {
         addbutton = findViewById(R.id.addbutton);
-        info = new ArrayList<detail>();
-        adapter1 = new adapter(info);
+        adapter1 = new adapter(detail1);
         recyclerView = findViewById(R.id.recyclerView);
         message = findViewById(R.id.message);
+        if (detail1.size() != 0){
+                    message.setVisibility(View.GONE);
+                }else{
+                    message.setVisibility(View.VISIBLE);
+               }
     }
 }
